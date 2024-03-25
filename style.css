@@ -97,6 +97,7 @@ footer {
 /* Album */
 .gallery {
   display: flex;
+  flex-direction: column;
 }
 
 .thumbnails {
