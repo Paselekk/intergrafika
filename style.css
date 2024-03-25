@@ -112,6 +112,10 @@ footer {
   cursor: pointer;
 }
 
+.thumbnails img:hover {
+  transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
 .full-view {
   flex: 1;
   text-align: center;
