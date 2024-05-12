@@ -43,8 +43,8 @@
     </nav>
 
     <main class="my-5">
-        <p class="titleCharts">Chart for function 1a</p>
-        <canvas id="myChart" width="400" height="400"></canvas>  
+        <p class="titleCharts">Wykres funkcji (1)</p>
+        <canvas id="myChart" width="500" height="500"></canvas>  
 
     </main>
     
@@ -54,7 +54,7 @@
     <script>
         function generujDaneWykresu() {
             const dane = [];
-            for (let x = -5; x <= 5; x += 0.1) {
+            for (let x = -5; x <= 5; x += 0.05) {
               dane.push({x: x, y: obliczFunkcje(x)});
             }
             return dane;
@@ -74,8 +74,8 @@
                     label: 'f(x)',
                     data: generujDaneWykresu(),
                     fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
+                    borderColor: 'rgb(0, 0, 00)',
+                    tension: 0.05
                   }]
                 },
                 options: {

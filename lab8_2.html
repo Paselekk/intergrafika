@@ -42,7 +42,7 @@
     </nav>
 
     <main class="my-5">
-        <p class="titleCharts">Chart for function 1b</p>
+        <p class="titleCharts">Wykres funkcji (2)</p>
         <div id="chart1b"></div>
     </main>
     
@@ -58,8 +58,8 @@
           
           function generujDaneWykresu3D() {
             const dane = [];
-            for (let x1 = -10; x1 <= 10; x1 += 0.5) {
-              for (let x2 = -10; x2 <= 10; x2 += 0.5) {
+            for (let x1 = -10; x1 <= 10; x1 += 0.2) {
+              for (let x2 = -10; x2 <= 10; x2 += 0.2) {
                 dane.push({x: x1, y: x2, z: obliczFunkcje(x1, x2)});
               }
             }
@@ -78,7 +78,7 @@
             };
           
             const layout = {
-              title: 'Chart for function 1b',
+              title: 'Wykres funkcji (2)',
               autosize: true,
               width: 800,
               height: 600,
