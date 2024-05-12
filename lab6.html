@@ -13,7 +13,7 @@
     <script>
         // Kod zegara
         var clockFace = new Image();
-        clockFace.src = 'https://czasnadrewno.pl/img/product_media/30001-31000/Kolorowe-cyfry-01-nadruk-UV-16326.png';
+        clockFace.src = 'https://haftonline.pl/images/produkty/zegary/04.png';
         clockFace.onload = function() {
             var canvasClock = document.getElementById('clockCanvas');
             var contextClock = canvasClock.getContext('2d');
@@ -45,7 +45,7 @@
             context.beginPath();
             context.lineWidth = width;
             context.lineCap = 'round';
-            context.strokeStyle = 'white';
+            context.strokeStyle = 'black';
             context.moveTo(0, 0);
             context.lineTo(0, -length);
             context.stroke();
