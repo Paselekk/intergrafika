@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <title>Motorsport | CONTACT</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="./styles/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./styles/gallery.css" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="./scripts/gallery.js" defer="defer"></script>
+
+    <script>
+        // Kod zegara
+        var clockFace = new Image();
+        clockFace.src = 'https://czasnadrewno.pl/img/product_media/30001-31000/Kolorowe-cyfry-01-nadruk-UV-16326.png';
+        clockFace.onload = function() {
+            var canvasClock = document.getElementById('clockCanvas');
+            var contextClock = canvasClock.getContext('2d');
+            var radiusClock = canvasClock.height / 2;
+            var centerXClock = canvasClock.width / 2;
+            var centerYClock = canvasClock.height / 2;
+    
+            setInterval(function() {
+                contextClock.clearRect(0, 0, canvasClock.width, canvasClock.height);
+                drawClock(contextClock, centerXClock, centerYClock, radiusClock);
+            }, 1000);
+        };
+    
+        function drawClock(context, centerX, centerY, radius) {
+            var now = new Date();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            context.drawImage(clockFace, centerX - radius, centerY - radius, radius * 2, radius * 2);
+            drawHand(context, centerX, centerY, (hour % 12) * 30 + minute * 0.5, radius * 0.5, 7); 
+            drawHand(context, centerX, centerY, minute * 6, radius * 0.8, 5); 
+            drawHand(context, centerX, centerY, second * 6, radius * 0.9, 2); 
+        }
+    
+        function drawHand(context, posX, posY, angle, length, width) {
+            context.save();
+            context.translate(posX, posY);
+            context.rotate(angle * Math.PI / 180);
+            context.beginPath();
+            context.lineWidth = width;
+            context.lineCap = 'round';
+            context.strokeStyle = 'white';
+            context.moveTo(0, 0);
+            context.lineTo(0, -length);
+            context.stroke();
+            context.restore();
+        }
+    </script>
+</head>
+<body>
+    <header>
+		<a href="./index.html">
+			<img src="./Zdjecia/Logo.png" alt="Logo MotorBlog">
+		</a>
+    </header>
+    
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item"> 
+				<a href="./index.html#Motocykle" > Motorcycles </a>
+			</li> 
+			<li class="nav-item">
+				<a href="./index.html#Samochody" > Cars </a>
+			</li> 
+			<li class="nav-item">
+				<a href="./index.html#Bolidy" > Single-seater </a>
+			</li>
+			<li class="nav-item">
+				<a href="./album.html" > Album </a>
+			</li>
+			<li class="nav-item">
+				<a href="./contact.html" > Contact </a>
+			</li>
+			<li class="nav-item">
+                <a href="./ig_lab.html">Laboratory</a>
+            </li>
+		</ul>
+    </nav>
+
+    <main class="my-5">        
+        <canvas id="clockCanvas" width="300" height="300"></canvas>
+    </main>
+    
+    <footer>
+        <p>Copyright &copy; 2024 Lapeta Pawel </p>	
+    </footer>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <title>Motorsport | CONTACT</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="./styles/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./styles/gallery.css" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="./scripts/gallery.js" defer="defer"></script>
+    <script>
+        function drawGraph(c) {
+            const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
+        
+            
+            const scale = 20; 
+            const xOffset = canvas.width / 2;
+            const yOffset = canvas.height / 2;
+        
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        
+            
+            ctx.strokeStyle = 'white';
+        
+            
+            ctx.beginPath();
+            ctx.moveTo(0, yOffset);
+            ctx.lineTo(canvas.width, yOffset);
+            ctx.moveTo(xOffset, 0);
+            ctx.lineTo(xOffset, canvas.height);
+            ctx.stroke();
+        
+            
+            ctx.beginPath();
+            ctx.moveTo(0, yOffset - (Math.sin(-xOffset / scale) + 0.5 * (-xOffset / scale) - c) * scale);
+            for (let x = -xOffset; x < xOffset; x++) {
+                let y = Math.sin(x / scale) + 0.5 * (x / scale) - c;
+                ctx.lineTo(x + xOffset, yOffset - y * scale);
+            }
+            ctx.stroke();
+        }
+        
+        function drawGraphWithoutTransform(c) {
+            const canvas = document.getElementById('myCanvas1');
+            const ctx = canvas.getContext('2d');
+        
+            
+            const xMin = -10;
+            const xMax = 10;
+            const yMin = -10;
+            const yMax = 10;
+        
+            
+            const xScale = canvas.width / (xMax - xMin);
+            const yScale = canvas.height / (yMax - yMin);
+        
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        
+            
+            ctx.strokeStyle = 'white';
+        
+            
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height / 2);
+            ctx.lineTo(canvas.width, canvas.height / 2);
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.stroke();
+        
+            
+            ctx.beginPath();
+            for (let x = xMin; x < xMax; x += 0.01) {
+                let y = Math.sin(2 * x) * Math.cos(3 * x) + 0.5 * x - c;
+                
+                
+                ctx.lineTo((x - xMin) * xScale, canvas.height / 2 - (y - yMin) * yScale);
+            }
+            ctx.stroke();
+        }
+
+        function drawPieChart(context, values, canvas) {
+            const total = values.reduce((acc, val) => acc + val, 0);
+            let startAngle = 0;
+            const animationDuration = 500; 
+            let currentEndAngles = values.map(() => 0); 
+        
+            function animateSlice(index) {
+                if (index >= values.length) return; 
+        
+                const value = values[index];
+                const sliceAngle = (value / total) * 2 * Math.PI;
+                let currentEndAngle = 0;
+                const animationStartTime = Date.now();
+        
+                function animate() {
+                    const elapsedTime = Date.now() - animationStartTime;
+                    const animationFraction = Math.min(elapsedTime / animationDuration, 1);
+                    currentEndAngle = sliceAngle * animationFraction;
+        
+                    
+                    const endAngle = startAngle + currentEndAngle;
+        
+                    const gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+                    gradient.addColorStop(0, `hsl(${index * 60}, 100%, 70%)`);
+                    gradient.addColorStop(1, `hsl(${index * 60 + 45}, 100%, 50%)`);
+        
+                    context.beginPath();
+                    context.moveTo(canvas.width / 2, canvas.height / 2);
+                    context.arc(canvas.width / 2, canvas.height / 2, canvas.height / 2, startAngle, endAngle);
+                    context.closePath();
+        
+                    context.fillStyle = gradient;
+                    context.fill();
+                    context.strokeStyle = 'white';
+                    context.stroke();
+        
+                    if (animationFraction < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        startAngle += sliceAngle; 
+                        animateSlice(index + 1); 
+                    }
+                }
+        
+                animate();
+            }
+        
+            animateSlice(0); 
+        }
+        var dane_wykresu = {
+            serie: [[10, 30, 45, 24, 79], [24, 15, 33, 34, 50]],
+            etykiety: ["label1", "label2", "label3", "label4", "label5"],
+            tytul: "Animowany wykres słupkowy",
+            type: "wykres_slupkowy"
+        };
+        function drawBarChart(data) {
+
+            const canvas = document.getElementById('myBarChart');
+            const context = canvas.getContext('2d');
+            const maxBarHeight = canvas.height - 50; 
+            const barWidth = 40; 
+            const barSpacing = 20; 
+            const animationDuration = 2000; 
+            const animationStartTime = Date.now(); 
+        
+            function animate() {
+                const elapsedTime = Date.now() - animationStartTime;
+                const animationFraction = Math.min(elapsedTime / animationDuration, 1);
+        
+                context.clearRect(0, 0, canvas.width, canvas.height); 
+        
+                data.serie.forEach((serie, serieIndex) => {
+                    serie.forEach((value, index) => {
+                        const barHeight = (value / 100) * maxBarHeight * animationFraction; 
+                        const x = index * (barWidth + barSpacing) + serieIndex * barWidth;
+        
+                        
+                        context.fillStyle = `hsl(${index * 60}, 70%, 50%)`;
+                        context.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+        
+                        
+                        context.fillStyle = 'black';
+                        context.fillText(data.etykiety[index], x, canvas.height - 5);
+                    });
+                });
+        
+                if (animationFraction < 1) {
+                    requestAnimationFrame(animate);
+                }
+            }
+        
+            animate();
+        }
+
+        
+        window.onload = function() {
+            drawGraph(1);
+            drawGraphWithoutTransform(2);
+            var canvas = document.getElementById("myCanvas2");
+            var context = canvas.getContext("2d");
+        
+            var last_time;
+            var stop = false;
+            var linear_speed = 100; 
+            var ballRadius = 10; 
+            var x = ballRadius; 
+            var y = ballRadius; 
+            var dx = linear_speed; 
+            var dy = -linear_speed; 
+        
+            function InitAnimation() {
+                stop = false;
+                var date = new Date();
+                last_time = date.getTime();
+                window.requestAnimationFrame(drawAnimation);
+            }
+        
+            function drawAnimation() {
+                var date = new Date();
+                var time_interval = (date.getTime() - last_time) / 1000;
+                last_time = date.getTime();
+        
+                
+                context.clearRect(0, 0, canvas.width, canvas.height);
+        
+                
+                x += dx * time_interval;
+                y += dy * time_interval;
+        
+                
+                if(x + ballRadius > canvas.width || x - ballRadius < 0) {
+                    dx = -dx;
+                }
+                if(y + ballRadius > canvas.height || y - ballRadius < 0) {
+                    dy = -dy;
+                }
+        
+                
+                context.save();
+                context.beginPath();
+                context.arc(x, y, ballRadius, 0, Math.PI * 2);
+                context.fillStyle = "#0095DD";
+                context.fill();
+                context.closePath();
+                context.restore();
+        
+                
+                if (!stop) {
+                    window.requestAnimationFrame(drawAnimation);
+                }
+            }
+        
+            InitAnimation();
+
+            const canvasPieChart = document.getElementById('myPieChart');
+            const contextPieChart = canvasPieChart.getContext('2d');
+            const values = [10, 30, 50, 120];
+            
+            drawPieChart(contextPieChart, values, canvasPieChart);
+              
+            drawBarChart(dane_wykresu);
+        }
+        
+        
+    </script>
+</head>
+<body>
+    <header>
+		<a href="./index.html">
+			<img src="./Zdjecia/Logo.png" alt="Logo MotorBlog">
+		</a>
+    </header>
+    
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item"> 
+				<a href="./index.html#Motocykle" > Motorcycles </a>
+			</li> 
+			<li class="nav-item">
+				<a href="./index.html#Samochody" > Cars </a>
+			</li> 
+			<li class="nav-item">
+				<a href="./index.html#Bolidy" > Single-seater </a>
+			</li>
+			<li class="nav-item">
+				<a href="./album.html" > Album </a>
+			</li>
+			<li class="nav-item">
+				<a href="./contact.html" > Contact </a>
+			</li>
+			<li class="nav-item">
+                <a href="./ig_lab.html">Laboratory</a>
+            </li>
+		</ul>
+    </nav>
+
+    <main class="my-5">
+        <canvas id="myCanvas" width="400" height="400"></canvas><br>
+        <canvas id="myCanvas1" width="400" height="400"></canvas><br>
+        <canvas id="myCanvas2" width="400" height="400"></canvas><br>
+        <canvas id="myPieChart" width="400" height="400"></canvas><br>
+        <canvas id="myBarChart" width="500" height="400"></canvas>
+
+    </main>
+    
+    <footer>
+        <p>Copyright &copy; 2024 Lapeta Pawel </p>	
+    </footer>
+</body>
+</html>

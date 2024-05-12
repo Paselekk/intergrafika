@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <title>Motorsport | CONTACT</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="./styles/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./styles/gallery.css" type="text/css">
+    <script src="./scripts/gallery.js" defer="defer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <header>
+		<a href="./index.html">
+			<img src="./Zdjecia/Logo.png" alt="Logo MotorBlog">
+		</a>
+    </header>
+    
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item"> 
+				<a href="./index.html#Motocykle" > Motorcycles </a>
+			</li> 
+			<li class="nav-item">
+				<a href="./index.html#Samochody" > Cars </a>
+			</li> 
+			<li class="nav-item">
+				<a href="./index.html#Bolidy" > Single-seater </a>
+			</li>
+			<li class="nav-item">
+				<a href="./album.html" > Album </a>
+			</li>
+			<li class="nav-item">
+				<a href="./contact.html" > Contact </a>
+			</li>
+			<li class="nav-item">
+                <a href="./ig_lab.html">Laboratory</a>
+            </li>
+		</ul>
+    </nav>
+
+    <main class="my-5">
+        <p class="titleCharts">Chart for function 1b</p>
+        <div id="chart1b"></div>
+    </main>
+    
+    <footer>
+      <p>Copyright &copy; 2024 Lapeta Pawel </p>	
+    </footer>
+    <script>
+        function obliczFunkcje(x1, x2) {
+            const suma = (x1 * x1 + x2 * x2) / 4000;
+            const iloczyn = (Math.cos(x1 / Math.sqrt(1)) + 1) * (Math.cos(x2 / Math.sqrt(2)) + 1);
+            return suma + iloczyn;
+          }
+          
+          function generujDaneWykresu3D() {
+            const dane = [];
+            for (let x1 = -10; x1 <= 10; x1 += 0.5) {
+              for (let x2 = -10; x2 <= 10; x2 += 0.5) {
+                dane.push({x: x1, y: x2, z: obliczFunkcje(x1, x2)});
+              }
+            }
+            return dane;
+          }
+          
+          // Po załadowaniu strony
+          document.addEventListener('DOMContentLoaded', function() {
+            const daneWykresu = generujDaneWykresu3D();
+            const daneDoWykresu = {
+              x: daneWykresu.map(punkt => punkt.x),
+              y: daneWykresu.map(punkt => punkt.y),
+              z: daneWykresu.map(punkt => punkt.z),
+              type: 'scatter3d',
+              mode: 'lines'
+            };
+          
+            const layout = {
+              title: 'Chart for function 1b',
+              autosize: true,
+              width: 800,
+              height: 600,
+              scene: {
+                xaxis: {title: 'x1'},
+                yaxis: {title: 'x2'},
+                zaxis: {title: 'f(j)'}
+              }
+            };
+          
+            Plotly.newPlot('chart1b', [daneDoWykresu], layout);
+          });
+    </script>
+</body>
+</html>

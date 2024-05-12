@@ -1,0 +1,56 @@
+.gallery {
+    margin-top: 10vh;
+}
+.gallery-container {
+    border: 1px solid #D1E7DD;
+    perspective: 1000px;
+}
+.gallery-container .image {
+    margin: 30px;
+    padding: 30px;
+}
+.image {
+    width:5vw;
+    height:5vh;
+    transform: scale(1);
+    transition: all 0s ease-out;
+    animation: scatter 1s forwards, gather 1s 1s forwards;
+    --x: 0;
+    --y: 0;
+}
+
+@keyframes scatter {
+    0% {
+      transform: translate(0px, 0px);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--x), var(--y));
+      opacity: 0;
+    }
+  }
+  
+  @keyframes gather {
+    0% {
+      transform: translate(var(--x), var(--y));
+      opacity: 0;
+    }
+    100% {
+      transform: translate(0px, 0px);
+      opacity: 1;
+    }
+  }
+  
+  
+  .image.task1 { --x: 100px; --y: -150px; }
+  .image.task2 { --x: -150px; --y: 200px; }
+  .image.task3 { --x: 50px; --y: -100px; }
+  .image.task4 { --x: -100px; --y: 150px; }
+  .image.task5 { --x: 150px; --y: -200px; }
+  .image.task6 { --x: -200px; --y: 250px; }
+  .image.task7 { --x: 250px; --y: -300px; }
+  .image.task8 { --x: -300px; --y: 350px; }
+  .image.task9 { --x: 350px; --y: -400px; }
+  .image.task10 { --x: -400px; --y: 450px; }
+  .image.task11 { --x: 450px; --y: -500px; }
+  .image.task12 { --x: -500px; --y: 550px; }

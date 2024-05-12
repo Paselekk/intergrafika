@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <title>Motorsport | CONTACT</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="./styles/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./styles/gallery.css" type="text/css">
+    <link rel="stylesheet" href="./styles/lab3.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="./scripts/gallery.js" defer="defer"></script>
+    <style>
+        #arkanoidCanvas {
+          border: 4px solid #0095DD; 
+          margin: 20px auto;
+          display: block;
+          background: #FFF;
+        }
+      </style>
+      
+</head>
+<body>
+    <header>
+		<a href="./index.html">
+			<img src="./Zdjecia/Logo.png" alt="Logo MotorBlog">
+		</a>
+    </header>
+    
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <ul class="navbar-nav mr-auto">
+			<li class="nav-item"> 
+				<a href="./index.html#Motocykle" > Motorcycles </a>
+			</li> 
+			<li class="nav-item">
+				<a href="./index.html#Samochody" > Cars </a>
+			</li> 
+			<li class="nav-item">
+				<a href="./index.html#Bolidy" > Single-seater </a>
+			</li>
+			<li class="nav-item">
+				<a href="./album.html" > Album </a>
+			</li>
+			<li class="nav-item">
+				<a href="./contact.html" > Contact </a>
+			</li>
+			<li class="nav-item">
+                <a href="./ig_lab.html">Laboratory</a>
+            </li>
+		</ul>
+    </nav>
+
+
+    <main class="my-5">
+        <canvas id="arkanoidCanvas" width="650" height="800"></canvas>
+
+        <script>
+            let gameOverDisplayed = false;
+            //
+            const canvas = document.getElementById('arkanoidCanvas');
+            const context = canvas.getContext('2d');
+            const brick = {
+                width: 48,
+                height: 18,
+                fillStyles: ["green", "blue", "yellow", "red"],
+                strokeStyle: "black"
+            };
+            const paddle = {
+                width: 75,
+                height: 10,
+                x: canvas.width / 2 - 75 / 2,
+                speed: 7
+            };
+            const ball = {
+                x: canvas.width / 2,
+                y: canvas.height - 30,
+                radius: 7,
+                speedX: 2,
+                speedY: -2
+            };
+            let score = 0;
+            let rightPressed = false;
+            let leftPressed = false;
+            const brickRowCount = 5;
+            const brickColumnCount = 10;
+            const brickWidth = 75;
+            const brickHeight = 20;
+            const brickPadding = 10;
+            const brickOffsetTop = 30;
+            const brickOffsetLeft = 30;
+            
+            let bricks = [];
+            for(let c = 0; c < brickColumnCount; c++) {
+                bricks[c] = [];
+                for(let r = 0; r < brickRowCount; r++) {
+                    bricks[c][r] = { x: 0, y: 0, status: 1 };
+                }
+            }
+    
+            
+            function drawBricks() {
+                for(let c = 0; c < brickColumnCount; c++) {
+                    for(let r = 0; r < brickRowCount; r++) {
+                        if(bricks[c][r].status == 1) {
+                            let brickX = (c * (brick.width + 10)) + 30;
+                            let brickY = (r * (brick.height + 10)) + 30;
+                            bricks[c][r].x = brickX;
+                            bricks[c][r].y = brickY;
+                            context.beginPath();
+                            context.rect(brickX, brickY, brick.width, brick.height);
+                            context.fillStyle = brick.fillStyles[r % brick.fillStyles.length];
+                            context.fill();
+                            context.strokeStyle = brick.strokeStyle;
+                            context.stroke();
+                            context.closePath();
+                        }
+                    }
+                }
+            }
+            function drawPaddle() {
+                context.beginPath();
+                context.rect(paddle.x, canvas.height - paddle.height, paddle.width, paddle.height);
+                context.fillStyle = "#0095DD";
+                context.fill();
+                context.closePath();
+            }
+            function drawBall() {
+                context.beginPath();
+                context.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
+                context.fillStyle = "#0095DD";
+                context.fill();
+                context.closePath();
+            }
+            function drawScore() {
+                context.font = "16px Arial";
+                context.fillStyle = "#0095DD";
+                context.fillText("Score: " + score, 8, 20);
+            }
+            function collisionDetection() {
+                for(let c = 0; c < brickColumnCount; c++) {
+                    for(let r = 0; r < brickRowCount; r++) {
+                        let b = bricks[c][r];
+                        if(b.status == 1) {
+                            if(ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight) {
+                                ball.speedY = -ball.speedY;
+                                b.status = 0;
+                                score++;
+                                if(score == brickRowCount * brickColumnCount) {
+                                    alert("YOU WIN, CONGRATULATIONS!");
+                                    document.location.reload();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            function gameLoop() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                drawBricks();
+                drawPaddle();
+                drawBall();
+                drawScore();
+                collisionDetection();
+            
+                
+                ball.x += ball.speedX;
+                ball.y += ball.speedY;
+            
+                
+                if(ball.x + ball.speedX > canvas.width - ball.radius || ball.x + ball.speedX < ball.radius) {
+                    ball.speedX = -ball.speedX;
+                }
+                if(ball.y + ball.speedY < ball.radius) {
+                    ball.speedY = -ball.speedY;
+                } else if(ball.y + ball.speedY > canvas.height - ball.radius) {
+                    if(ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
+                        ball.speedY = -ball.speedY;
+                    } else {
+                        if (!gameOverDisplayed) {
+                            alert("GAME OVER");
+                            gameOverDisplayed = true;
+                            resetGame();
+                        }
+                    }
+                }
+            
+                
+                if(rightPressed && paddle.x < canvas.width - paddle.width) {
+                    paddle.x += paddle.speed;
+                }
+                else if(leftPressed && paddle.x > 0) {
+                    paddle.x -= paddle.speed;
+                }
+            
+                requestAnimationFrame(gameLoop);
+            }
+            
+            function resetGame() {
+                
+                ball.x = canvas.width / 2;
+                ball.y = canvas.height - 30;
+                ball.speedX = 2;
+                ball.speedY = -2;
+                paddle.x = canvas.width / 2 - paddle.width / 2;
+                score = 0;
+                gameOverDisplayed = false;
+                
+                for(let c = 0; c < brickColumnCount; c++) {
+                    for(let r = 0; r < brickRowCount; r++) {
+                        bricks[c][r].status = 1;
+                    }
+                }
+            }
+            
+            document.addEventListener("keydown", keyDownHandler, false);
+            document.addEventListener("keyup", keyUpHandler, false);
+    
+            function keyDownHandler(e) {
+                if(e.key == "Right" || e.key == "ArrowRight") {
+                    rightPressed = true;
+                }
+                else if(e.key == "Left" || e.key == "ArrowLeft") {
+                    leftPressed = true;
+                }
+            }
+    
+            function keyUpHandler(e) {
+                if(e.key == "Right" || e.key == "ArrowRight") {
+                    rightPressed = false;
+                }
+                else if(e.key == "Left" || e.key == "ArrowLeft") {
+                    leftPressed = false;
+                }
+            }
+    
+            
+            gameLoop();
+        </script>
+      </main>
+      
+    
+    <footer>
+        <p>Copyright &copy; 2024 Lapeta Pawel </p>	
+    </footer>
+</body>
+</html>
