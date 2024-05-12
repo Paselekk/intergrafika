@@ -22,7 +22,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
         
             
-            ctx.strokeStyle = 'white';
+            ctx.strokeStyle = 'black';
         
             
             ctx.beginPath();
@@ -59,7 +59,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
         
             
-            ctx.strokeStyle = 'white';
+            ctx.strokeStyle = 'black';
         
             
             ctx.beginPath();
@@ -113,7 +113,7 @@
         
                     context.fillStyle = gradient;
                     context.fill();
-                    context.strokeStyle = 'white';
+                    context.strokeStyle = 'black';
                     context.stroke();
         
                     if (animationFraction < 1) {
@@ -176,8 +176,8 @@
 
         
         window.onload = function() {
-            drawGraph(1);
-            drawGraphWithoutTransform(2);
+            drawGraph(-1);
+            drawGraphWithoutTransform(4);
             var canvas = document.getElementById("myCanvas2");
             var context = canvas.getContext("2d");
         
@@ -279,7 +279,9 @@
     <main class="my-5">
         <canvas id="myCanvas" width="400" height="400"></canvas><br>
         <canvas id="myCanvas1" width="400" height="400"></canvas><br>
-        <canvas id="myCanvas2" width="400" height="400"></canvas><br>
+        <div class="border">
+        <canvas id="myCanvas2" width="400" height="300"></canvas>
+        </div><br>
         <canvas id="myPieChart" width="400" height="400"></canvas><br>
         <canvas id="myBarChart" width="500" height="400"></canvas>
 

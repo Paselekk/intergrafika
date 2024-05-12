@@ -42,15 +42,15 @@
   }
   
   
-  .image.task1 { --x: 100px; --y: -150px; }
-  .image.task2 { --x: -150px; --y: 200px; }
-  .image.task3 { --x: 50px; --y: -100px; }
-  .image.task4 { --x: -100px; --y: 150px; }
-  .image.task5 { --x: 150px; --y: -200px; }
-  .image.task6 { --x: -200px; --y: 250px; }
-  .image.task7 { --x: 250px; --y: -300px; }
-  .image.task8 { --x: -300px; --y: 350px; }
-  .image.task9 { --x: 350px; --y: -400px; }
-  .image.task10 { --x: -400px; --y: 450px; }
-  .image.task11 { --x: 450px; --y: -500px; }
-  .image.task12 { --x: -500px; --y: 550px; }
+  .image.task1 { --x: 125px; --y: -125px; }
+  .image.task2 { --x: -125px; --y: 175px; }
+  .image.task3 { --x: 75px; --y: -125px; }
+  .image.task4 { --x: -125px; --y: 125px; }
+  .image.task5 { --x: 125px; --y: -225px; }
+  .image.task6 { --x: -175px; --y: 275px; }
+  .image.task7 { --x: 225px; --y: -325px; }
+  .image.task8 { --x: -275px; --y: 375px; }
+  .image.task9 { --x: 325px; --y: -425px; }
+  .image.task10 { --x: -425px; --y: 425px; }
+  .image.task11 { --x: 425px; --y: -525px; }
+  .image.task12 { --x: -525px; --y: 525px; }

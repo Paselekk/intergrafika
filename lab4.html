@@ -13,7 +13,7 @@
     <script>
         function drawSquareWave(context, width, height, period, amplitude) {
             context.beginPath();
-            context.strokeStyle = 'white';
+            context.strokeStyle = 'black';
             let x = 0;
             let y = context.canvas.height / 2 - amplitude / 2;
             const step = period / 2;
@@ -141,12 +141,12 @@
         window.onload = function() {
             const canvas = document.getElementById('myCanvas');
             const context = canvas.getContext('2d');
-            context.strokeStyle = 'white'; 
+            context.strokeStyle = 'black'; 
         
             const width = canvas.width;
             const height = canvas.height;
-            const period = 20; 
-            const amplitude = 10; 
+            const period = 30; 
+            const amplitude = 15; 
         
             drawSquareWave(context, width, height, period, amplitude);
 
@@ -159,23 +159,23 @@
             const rectangle = document.getElementById('myRentangle');
             const context_rentangle = rectangle.getContext('2d');
             var gradient = context_rentangle.createLinearGradient(0, 0, rectangle.width, 0);
-            gradient.addColorStop(0, 'green');
+            gradient.addColorStop(0, 'red');
             gradient.addColorStop(1, 'blue');
 
             
             context_rentangle.fillStyle = gradient;
 
             
-            drawRoundedRect(context_rentangle, 50, 50, 200, 100, 20, true);
+            drawRoundedRect(context_rentangle, 75, 75, 200, 100, 30, true);
 
             const gear = document.getElementById('gearCanvas');
             const ctx = gear.getContext('2d');
-            ctx.strokeStyle = 'white'; 
+            ctx.strokeStyle = 'black'; 
 
             ctx.translate(150, 150); 
 
             
-            const teeth = 20; 
+            const teeth = 14; 
             const r0 = 30; 
             const r1 = 60; 
             const r2 = 80; 
@@ -217,10 +217,10 @@
     </nav>
 
     <main class="my-5">
-        <canvas id="myCanvas" width="800" height="200"></canvas>
-        <canvas id="myPieChart" width="400" height="400"></canvas>
-        <canvas id="myRentangle" width="300" height="200"></canvas>
-        <canvas id="gearCanvas" width="300" height="300"></canvas>
+        <canvas id="myCanvas" width="600" height="200"></canvas>
+        <canvas id="myPieChart" width="500" height="500"></canvas>
+        <canvas id="myRentangle" width="400" height="300"></canvas>
+        <canvas id="gearCanvas" width="400" height="400"></canvas>
     </main>
     
     <footer>
